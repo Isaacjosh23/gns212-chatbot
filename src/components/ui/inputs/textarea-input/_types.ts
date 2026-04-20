@@ -10,4 +10,5 @@ export interface TextareaInputProps {
   showBorder?: boolean;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }

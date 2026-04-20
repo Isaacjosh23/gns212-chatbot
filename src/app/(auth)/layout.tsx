@@ -38,19 +38,19 @@ export default function AuthLayout({
           />
         </div>
 
-        {/* Page content */}
         {children}
 
         <div className="grid gap-[1.6rem]">
-          {/* Submit button */}
-          <Button
-            variant="navy"
-            size="lg"
-            type="submit"
-            className="w-full cursor-pointer text-[1.4rem]"
-          >
-            {isLogin ? "Sign in" : "Create account"}
-          </Button>
+          <Link href="/chat">
+            <Button
+              variant="navy"
+              size="lg"
+              type="submit"
+              className="w-full cursor-pointer text-[1.4rem]"
+            >
+              {isLogin ? "Sign in" : "Create account"}
+            </Button>
+          </Link>
 
           {/* Divider */}
           <div className="flex items-center gap-[1.2rem]">
@@ -59,7 +59,6 @@ export default function AuthLayout({
             <div className="flex-1 h-px bg-[var(--border-color)]" />
           </div>
 
-          {/* Google button */}
           <Button
             variant="outline"
             size="lg"
@@ -69,7 +68,6 @@ export default function AuthLayout({
             Continue with Google
           </Button>
 
-          {/* Footer */}
           <p className="text-[1.2rem] text-center text-[var(--text-muted)]">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <Link

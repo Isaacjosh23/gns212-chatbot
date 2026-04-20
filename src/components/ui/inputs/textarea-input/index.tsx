@@ -20,6 +20,7 @@ export function TextareaInput({
   rightElement,
   showBorder = true,
   className,
+  onKeyPress,
 }: TextareaInputProps) {
   return (
     <div className="grid gap-[0.8rem] content-start z-10 w-full">
@@ -46,6 +47,7 @@ export function TextareaInput({
           placeholder={placeholder}
           readOnly={readonly}
           onChange={onChange}
+          onKeyPress={onKeyPress}
           required={required}
         />
 
