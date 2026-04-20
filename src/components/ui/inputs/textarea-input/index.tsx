@@ -1,0 +1,60 @@
+"use client";
+
+import type { TextareaInputProps } from "./_types";
+import {
+  InputConStyles,
+  InputLabelStyles,
+  InputRequiredStyles,
+} from "../styles";
+import { cn } from "@/lib/utils";
+
+export function TextareaInput({
+  label,
+  name,
+  value,
+  readonly,
+  required,
+  placeholder,
+  rows = 4,
+  onChange,
+  rightElement,
+  showBorder = true,
+  className,
+}: TextareaInputProps) {
+  return (
+    <div className="grid gap-2 content-start z-10 w-full">
+      {label && (
+        <label className={cn(InputLabelStyles)}>
+          {label}{" "}
+          {required && <span className={cn(InputRequiredStyles)}>*</span>}
+        </label>
+      )}
+
+      <div
+        className={cn(
+          InputConStyles,
+          className,
+          "h-auto py-2 transition-all",
+          !showBorder && "border-none shadow-none bg-transparent",
+        )}
+      >
+        <textarea
+          name={name}
+          rows={rows}
+          className="w-full text-sm bg-transparent outline-none text-[--text-primary] placeholder:text-[--text-muted] resize-none"
+          value={value}
+          placeholder={placeholder}
+          readOnly={readonly}
+          onChange={onChange}
+          required={required}
+        />
+
+        {rightElement && (
+          <div className="absolute right-4 top-16 flex items-center">
+            {rightElement}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
