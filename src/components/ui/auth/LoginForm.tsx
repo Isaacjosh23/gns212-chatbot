@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Inputs } from "../inputs/_types";
 import { Input } from "../inputs";
-import { Button } from "../button";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -16,17 +15,19 @@ export function LoginForm() {
   };
 
   return (
-    <div className="grid gap-8">
-      <div className="grid gap-1">
-        <h1 className="text-2xl font-semibold text-[--text-primary]">
+    <div className="grid gap-[3.2rem]">
+      {/* Header */}
+      <div className="grid gap-[0.4rem]">
+        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)]">
           Welcome back
         </h1>
-        <p className="text-sm text-[--text-secondary]">
+        <p className="text-[1.4rem] text-[var(--text-secondary)]">
           Sign in to your GNS 212 account
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="grid gap-5">
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="grid gap-[2rem]">
         <Input
           type={Inputs.Email}
           name="email"
@@ -51,29 +52,16 @@ export function LoginForm() {
           }
         />
 
-        <div className="flex justify-end -mt-2">
+        {/* Forgot password */}
+        <div className="flex justify-end -mt-[0.8rem]">
           <Link
             href="/forgot-password"
-            className="text-sm text-[--gold] hover:underline"
+            className="text-[1.2rem] text-[var(--gold)] hover:underline"
           >
             Forgot password?
           </Link>
         </div>
-
-        <Button variant="navy" size="lg" type="submit" className="w-full">
-          Sign in
-        </Button>
       </form>
-
-      <p className="text-sm text-center text-[--text-secondary]">
-        Don&apos;t have an account?{" "}
-        <Link
-          href="/create-account"
-          className="font-semibold text-[--navy] hover:underline"
-        >
-          Create account
-        </Link>
-      </p>
     </div>
   );
 }

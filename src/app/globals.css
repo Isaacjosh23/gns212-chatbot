@@ -46,6 +46,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --default-font-size: 62.5%;
 }
 
 :root {
@@ -143,9 +145,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    font-size: 62.5%;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-inter);
+
+    font-size: 1.6rem;
   }
   h1,
   h2,

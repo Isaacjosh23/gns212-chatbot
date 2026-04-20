@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${merriweather.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[--bg] text-[--text-primary]">
+      <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text-primary)]">
         {children}
       </body>
     </html>
