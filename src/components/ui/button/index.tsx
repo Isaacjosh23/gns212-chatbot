@@ -5,7 +5,7 @@ import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-[0.8rem] border border-transparent bg-clip-padding text-[1.4rem] font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-[1.6rem]",
   {
     variants: {
       variant: {
@@ -23,16 +23,16 @@ const buttonVariants = cva(
       },
       size: {
         default:
-          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        icon: "size-8",
+          "h-[3.2rem] gap-[0.6rem] px-[1rem] has-data-[icon=inline-end]:pr-[0.8rem] has-data-[icon=inline-start]:pl-[0.8rem]",
+        xs: "h-[2.4rem] gap-[0.4rem] rounded-[min(var(--radius-md),1rem)] px-[0.8rem] text-[1.2rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-[0.6rem] has-data-[icon=inline-start]:pl-[0.6rem] [&_svg:not([class*='size-'])]:size-[1.2rem]",
+        sm: "h-[2.8rem] gap-[0.4rem] rounded-[min(var(--radius-md),1.2rem)] px-[1rem] text-[1.3rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-[0.6rem] has-data-[icon=inline-start]:pl-[0.6rem] [&_svg:not([class*='size-'])]:size-[1.4rem]",
+        lg: "h-[4.4rem] gap-[0.6rem] px-[1.6rem] has-data-[icon=inline-end]:pr-[0.8rem] has-data-[icon=inline-start]:pl-[0.8rem]",
+        icon: "size-[3.2rem]",
         "icon-xs":
-          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
+          "size-[2.4rem] rounded-[min(var(--radius-md),1rem)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-[1.2rem]",
         "icon-sm":
-          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
-        "icon-lg": "size-9",
+          "size-[2.8rem] rounded-[min(var(--radius-md),1.2rem)] in-data-[slot=button-group]:rounded-lg",
+        "icon-lg": "size-[3.6rem]",
       },
     },
     defaultVariants: {

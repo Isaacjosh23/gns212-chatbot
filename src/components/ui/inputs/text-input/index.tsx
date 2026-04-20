@@ -27,7 +27,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     ref,
   ) => {
     return (
-      <div className="grid gap-2 content-start z-10 w-full">
+      <div className="grid gap-[0.8rem] content-start z-10 w-full">
         {label && (
           <label className={cn(InputLabelStyles)}>
             {label}{" "}
@@ -42,12 +42,12 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             className,
           )}
         >
-          {icon && <div className="flex items-center mr-2">{icon}</div>}
+          {icon && <div className="flex items-center mr-[0.8rem]">{icon}</div>}
           <input
             ref={ref}
             type="text"
             name={name}
-            className="w-full text-sm bg-transparent outline-none text-[--text-primary] placeholder:text-[--text-muted] pr-20"
+            className="w-full text-[1.4rem] bg-transparent outline-none text-[--text-primary] placeholder:text-[--text-muted] pr-32"
             value={value}
             placeholder={placeholder}
             readOnly={readonly}
@@ -56,7 +56,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           />
 
           {rightElement && (
-            <div className="absolute right-4 flex items-center">
+            <div className="absolute right-[1.6rem] flex items-center">
               {rightElement}
             </div>
           )}

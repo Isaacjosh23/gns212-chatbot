@@ -27,7 +27,7 @@ export function PasswordInput({
   };
 
   return (
-    <div className="grid gap-2 content-start z-10">
+    <div className="grid gap-[0.8rem] content-start z-10">
       {label && (
         <label className={cn(InputLabelStyles)}>
           {label}{" "}
@@ -39,7 +39,7 @@ export function PasswordInput({
         <input
           type={showPassword ? "text" : "password"}
           name={name}
-          className="w-full bg-transparent outline-none text-[--text-primary] placeholder:text-[--text-muted] pr-10"
+          className="w-full text-[1.4rem] bg-transparent outline-none text-[--text-primary)] placeholder:text-[--text-muted)] pr-16"
           value={value}
           placeholder={placeholder}
           readOnly={readonly}
@@ -49,12 +49,12 @@ export function PasswordInput({
         <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute right-3 focus:outline-none cursor-pointer"
+          className="absolute right-[1.2rem] focus:outline-none cursor-pointer"
         >
           {showPassword ? (
-            <EyeOpenIcon className="size-4 text-[--text-muted]" />
+            <EyeOpenIcon className="size-[1.6rem] text-[--text-muted]" />
           ) : (
-            <EyeCloseIcon className="size-4 text-[--text-muted]" />
+            <EyeCloseIcon className="size-[1.6rem] text-[--text-muted]" />
           )}
         </button>
       </div>
