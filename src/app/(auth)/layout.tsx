@@ -40,19 +40,18 @@ export default function AuthLayout({
 
         {children}
 
-        <div className="grid gap-[1.6rem]">
-          <Link href="/chat">
-            <Button
-              variant="navy"
-              size="lg"
-              type="submit"
-              className="w-full cursor-pointer text-[1.4rem]"
-            >
-              {isLogin ? "Sign in" : "Create account"}
-            </Button>
-          </Link>
+        {/* <div className="grid gap-[1.6rem]">
+          <Button
+            form="auth-form"
+            type="submit"
+            variant="navy"
+            size="lg"
+            disabled={loading}
+            className="w-full cursor-pointer text-[1.4rem]"
+          >
+            {loading ? "Loading..." : isLogin ? "Sign in" : "Create account"}
+          </Button>
 
-          {/* Divider */}
           <div className="flex items-center gap-[1.2rem]">
             <div className="flex-1 h-px bg-[var(--border-color)]" />
             <span className="text-[1.2rem] text-[var(--text-muted)]">or</span>
@@ -77,7 +76,18 @@ export default function AuthLayout({
               {isLogin ? "Create account" : "Sign in"}
             </Link>
           </p>
-        </div>
+        </div> */}
+
+        {/* Buttons moved to individual forms */}
+        <p className="text-[1.2rem] text-center text-[var(--text-muted)]">
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
+          <Link
+            href={isLogin ? "/create-account" : "/login"}
+            className="font-semibold text-[var(--navy)] hover:underline"
+          >
+            {isLogin ? "Create account" : "Sign in"}
+          </Link>
+        </p>
       </div>
     </main>
   );
