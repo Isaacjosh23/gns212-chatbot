@@ -18,7 +18,7 @@ export function SuggestedQuestions({
           key={index}
           variant="outline"
           onClick={() => onSelectQuestion(question)}
-          className="text-xl border-[var(--navy-mid)] text-[var(--navy-mid)] hover:bg-[var(--gold-light)] hover:border-[var(--gold)]"
+          className="text-xl border-[var(--navy-mid)] text-[var(--navy-mid)] hover:bg-[var(--gold-light)] hover:border-[var(--gold)] cursor-pointer"
         >
           {question}
         </Button>

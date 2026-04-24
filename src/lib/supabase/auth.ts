@@ -22,3 +22,11 @@ export async function signUp(
 
   return { data, error };
 }
+
+export async function signOut() {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  return { error };
+}

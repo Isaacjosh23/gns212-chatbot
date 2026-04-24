@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useLogout } from "@/store/hooks/useLogout";
 
 interface ChatHeaderProps {
   isDarkMode?: boolean;
@@ -13,6 +14,8 @@ export function ChatHeader({
   onToggleDarkMode,
   onLogout,
 }: ChatHeaderProps) {
+  const { logout } = useLogout();
+
   return (
     <header className="bg-[var(--navy)] text-white px-6 py-4 flex items-center justify-between border-b border-[var(--navy-mid)]">
       <div className="flex items-center gap-3">
@@ -31,7 +34,7 @@ export function ChatHeader({
           {isDarkMode ? "☀️" : "🌙"}
         </Button>
         <Button
-          onClick={onLogout}
+          onClick={logout}
           variant="ghost"
           className="text-white hover:bg-[var(--navy-mid)] hover:text-white text-2xl cursor-pointer"
         >
