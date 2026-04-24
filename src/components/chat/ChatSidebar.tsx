@@ -21,7 +21,7 @@ export function ChatSidebar({
       <div className="p-4 border-b border-[var(--navy-mid)]/10">
         <Button
           onClick={onNewConversation}
-          className="w-full bg-[var(--navy)] hover:bg-[var(--navy-mid)] text-white text-xl"
+          className="w-full bg-[var(--navy)] hover:bg-[var(--navy-mid)] text-white text-xl cursor-pointer"
         >
           + New Chat
         </Button>
@@ -37,7 +37,7 @@ export function ChatSidebar({
             <button
               key={conv.id}
               onClick={() => onSelectConversation(conv.id)}
-              className={`w-full text-left px-3 py-2 rounded-lg transition-colors text-sm line-clamp-2 text-xl ${
+              className={`w-full text-left px-3 py-2 rounded-lg transition-colors line-clamp-2 text-xl cursor-pointer ${
                 activeConversationId === conv.id
                   ? "bg-[var(--gold)] text-[var(--navy)] font-medium"
                   : "text-[var(--text-primary)] hover:bg-[var(--bg-page)]"
