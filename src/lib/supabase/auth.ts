@@ -1,5 +1,16 @@
 import { createClient } from "./client";
 
+export async function signIn(email: string, password: string) {
+  const supabse = createClient();
+
+  const { data, error } = await supabse.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  return { data, error };
+}
+
 export async function signUp(
   email: string,
   password: string,
