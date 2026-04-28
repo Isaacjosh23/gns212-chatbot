@@ -1,9 +1,9 @@
 import { createClient } from "./client";
 
 export async function signIn(email: string, password: string) {
-  const supabse = createClient();
+  const supabase = createClient();
 
-  const { data, error } = await supabse.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -16,6 +16,7 @@ export async function signUp(
   password: string,
   firstName: string,
   lastName: string,
+  number: string,
 ) {
   const supabase = createClient();
 
@@ -27,6 +28,7 @@ export async function signUp(
         first_name: firstName,
         last_name: lastName,
         full_name: `${firstName} ${lastName}`,
+        phone_number: number,
       },
     },
   });
@@ -40,4 +42,24 @@ export async function signOut() {
   const { error } = await supabase.auth.signOut();
 
   return { error };
+}
+
+export async function resetPassword(email: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+
+  return { data, error };
+}
+
+export async function updatePassword(newPassword: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  return { data, error };
 }

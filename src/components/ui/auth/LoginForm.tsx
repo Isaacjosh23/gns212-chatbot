@@ -53,10 +53,10 @@ export function LoginForm() {
   return (
     <div className="grid gap-[3.2rem]">
       <div className="grid gap-[0.4rem]">
-        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)]">
+        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
           Welcome back
         </h1>
-        <p className="text-[1.4rem] text-[var(--text-secondary)]">
+        <p className="text-[1.4rem] text-[var(--text-secondary)] text-center">
           Sign in to your GNS 212 account
         </p>
       </div>
