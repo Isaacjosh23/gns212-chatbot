@@ -57,7 +57,6 @@ export function ResetPasswordForm() {
         </p>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="grid gap-[2rem]">
         {formError && (
           <div className="p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[1.3rem]">

@@ -35,7 +35,6 @@ export function ForgotPasswordForm() {
     setSent(true);
   };
 
-  // Success state
   if (sent) {
     return (
       <div className="grid gap-[1.6rem] text-center">
@@ -64,7 +63,6 @@ export function ForgotPasswordForm() {
 
   return (
     <div className="grid gap-[3.2rem]">
-      {/* Header */}
       <div className="grid gap-[0.8rem]">
         <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
           Forgot password?
@@ -75,7 +73,6 @@ export function ForgotPasswordForm() {
         </p>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="grid gap-[2rem]">
         {formError && (
           <div className="p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[1.3rem]">

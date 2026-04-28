@@ -38,6 +38,8 @@ export function LoginForm() {
 
     const { data, error } = await signIn(email, password);
 
+    setIsLoading(false);
+
     if (error) {
       dispatch(setLoading(false));
       setFormError(error.message);
@@ -113,7 +115,6 @@ export function LoginForm() {
         </Button>
       </form>
 
-      {/* Divider */}
       <div className="flex items-center gap-[1.2rem]">
         <div className="flex-1 h-px bg-[var(--text-secondary)] opacity-20"></div>
         <span className="text-[1.3rem] text-[var(--text-secondary)]">or</span>
