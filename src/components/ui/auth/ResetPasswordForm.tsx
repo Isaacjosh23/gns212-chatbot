@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Inputs } from "../inputs/_types";
 import { Input } from "../inputs";
 import { Button } from "../button";
 import { updatePassword } from "@/lib/supabase/auth";
+import { createClient } from "@/lib/supabase/client";
 
 export function ResetPasswordForm() {
   const router = useRouter();
@@ -13,6 +14,37 @@ export function ResetPasswordForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setIsLoading] = useState(false);
+  const [sessionReady, setSessionReady] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setSessionReady(true);
+        setCheckingSession(false);
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && session)) {
+        setSessionReady(true);
+        setCheckingSession(false);
+      }
+    });
+
+    const timeout = setTimeout(() => {
+      setCheckingSession(false);
+    }, 3000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +60,13 @@ export function ResetPasswordForm() {
     }
     if (password !== confirmPassword) {
       setFormError("Passwords do not match");
+      return;
+    }
+
+    if (!sessionReady) {
+      setFormError(
+        "Reset link is invalid or has expired. Please request a new one.",
+      );
       return;
     }
 
@@ -47,7 +86,6 @@ export function ResetPasswordForm() {
 
   return (
     <div className="grid gap-[3.2rem]">
-      {/* Header */}
       <div className="grid gap-[0.8rem]">
         <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
           Reset password
@@ -57,7 +95,13 @@ export function ResetPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="grid gap-[2rem]">
+      {checkingSession && (
+        <p className="text-[1.3rem] text-center text-[var(--text-muted)]">
+          Verifying reset link...
+        </p>
+      )}
+
+      <form onSubmit={handleSubmit} className="grid gap-8">
         {formError && (
           <div className="p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[1.3rem]">
             {formError}
@@ -74,7 +118,7 @@ export function ResetPasswordForm() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
           }
-          disabled={loading}
+          disabled={loading || checkingSession}
         />
 
         <Input
@@ -87,13 +131,13 @@ export function ResetPasswordForm() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setConfirmPassword(e.target.value)
           }
-          disabled={loading}
+          disabled={loading || checkingSession}
         />
 
         <Button
           type="submit"
           variant="navy"
-          disabled={loading}
+          disabled={loading || checkingSession}
           className="w-full"
         >
           {loading ? "Updating password..." : "Update password"}

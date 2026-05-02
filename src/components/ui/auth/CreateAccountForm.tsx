@@ -66,10 +66,11 @@ export function CreateAccountForm() {
       number,
     );
 
-    setIsLoading(false);
+    // setIsLoading(false);
 
     if (error) {
       dispatch(setLoading(false));
+      setIsLoading(false);
       setFormError(error.message);
       return;
     }

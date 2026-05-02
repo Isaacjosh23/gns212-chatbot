@@ -63,3 +63,16 @@ export async function updatePassword(newPassword: string) {
 
   return { data, error };
 }
+
+export async function checkEmailExists(email: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("email")
+    .eq("email", email)
+    .single();
+
+  if (error || !data) return false;
+  return true;
+}

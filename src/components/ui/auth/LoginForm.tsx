@@ -38,10 +38,9 @@ export function LoginForm() {
 
     const { data, error } = await signIn(email, password);
 
-    setIsLoading(false);
-
     if (error) {
       dispatch(setLoading(false));
+      setIsLoading(false);
       setFormError(error.message);
       return;
     }

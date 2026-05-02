@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Inputs } from "../inputs/_types";
 import { Input } from "../inputs";
 import { Button } from "../button";
-import { resetPassword } from "@/lib/supabase/auth";
+import { checkEmailExists, resetPassword } from "@/lib/supabase/auth";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -23,16 +23,26 @@ export function ForgotPasswordForm() {
 
     setIsLoading(true);
 
+    const emaillExsits = await checkEmailExists(email);
+
+    if (!emaillExsits) {
+      setIsLoading(false);
+      setFormError("No account found with that email");
+      return;
+    }
+
     const { error } = await resetPassword(email);
 
-    setIsLoading(false);
+    // setIsLoading(false);
 
     if (error) {
+      setIsLoading(false);
       setFormError(error.message);
       return;
     }
 
     setSent(true);
+    setIsLoading(false);
   };
 
   if (sent) {
