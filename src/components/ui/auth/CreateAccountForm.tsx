@@ -66,8 +66,6 @@ export function CreateAccountForm() {
       number,
     );
 
-    // setIsLoading(false);
-
     if (error) {
       dispatch(setLoading(false));
       setIsLoading(false);
@@ -103,7 +101,7 @@ export function CreateAccountForm() {
         )}
 
         {/* Name row */}
-        <div className="grid grid-cols-2 gap-[1.6rem]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[1.6rem]">
           <Input
             type={Inputs.Text}
             name="firstName"
@@ -131,7 +129,7 @@ export function CreateAccountForm() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-[1.6rem]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[1.6rem]">
           <Input
             type={Inputs.Email}
             name="email"

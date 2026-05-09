@@ -85,25 +85,25 @@ export function ResetPasswordForm() {
   };
 
   return (
-    <div className="grid gap-[3.2rem]">
-      <div className="grid gap-[0.8rem]">
-        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
+    <div className="grid gap-[2rem] sm:gap-[2.4rem] md:gap-[3.2rem]">
+      <div className="grid gap-[0.6rem] sm:gap-[0.8rem]">
+        <h1 className="text-[1.8rem] sm:text-[2rem] md:text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
           Reset password
         </h1>
-        <p className="text-[1.4rem] text-[var(--text-secondary)] text-center">
+        <p className="text-[1rem] sm:text-[1.2rem] md:text-[1.4rem] text-[var(--text-secondary)] text-center">
           Enter your new password below
         </p>
       </div>
 
       {checkingSession && (
-        <p className="text-[1.3rem] text-center text-[var(--text-muted)]">
+        <p className="text-[1rem] sm:text-[1.1rem] md:text-[1.3rem] text-center text-[var(--text-muted)]">
           Verifying reset link...
         </p>
       )}
 
-      <form onSubmit={handleSubmit} className="grid gap-8">
+      <form onSubmit={handleSubmit} className="grid gap-4 sm:gap-6 md:gap-8">
         {formError && (
-          <div className="p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[1.3rem]">
+          <div className="p-[0.8rem] sm:p-[1rem] md:p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[0.9rem] sm:text-[1rem] md:text-[1.3rem]">
             {formError}
           </div>
         )}
