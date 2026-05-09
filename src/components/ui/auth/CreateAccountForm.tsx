@@ -17,6 +17,7 @@ export function CreateAccountForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -38,6 +39,9 @@ export function CreateAccountForm() {
       setFormError("Email is required");
       return;
     }
+    if (!number.trim() && number.length < 11) {
+      setFormError("A valid number is required");
+    }
     if (!password) {
       setFormError("Password is required");
       return;
@@ -54,12 +58,17 @@ export function CreateAccountForm() {
     setIsLoading(true);
     dispatch(setLoading(true));
 
-    const { data, error } = await signUp(email, password, firstName, lastName);
-
-    setIsLoading(false);
+    const { data, error } = await signUp(
+      email,
+      password,
+      firstName,
+      lastName,
+      number,
+    );
 
     if (error) {
       dispatch(setLoading(false));
+      setIsLoading(false);
       setFormError(error.message);
       return;
     }
@@ -74,10 +83,10 @@ export function CreateAccountForm() {
     <div className="grid gap-[3.2rem]">
       {/* Header */}
       <div className="grid gap-[0.4rem]">
-        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)]">
+        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
           Create account
         </h1>
-        <p className="text-[1.4rem] text-[var(--text-secondary)]">
+        <p className="text-[1.4rem] text-[var(--text-secondary)] text-center">
           Join GNS 212 and start learning smarter
         </p>
       </div>
@@ -92,7 +101,7 @@ export function CreateAccountForm() {
         )}
 
         {/* Name row */}
-        <div className="grid grid-cols-2 gap-[1.6rem]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[1.6rem]">
           <Input
             type={Inputs.Text}
             name="firstName"
@@ -105,6 +114,7 @@ export function CreateAccountForm() {
             }
             disabled={loading}
           />
+
           <Input
             type={Inputs.Text}
             name="lastName"
@@ -119,18 +129,33 @@ export function CreateAccountForm() {
           />
         </div>
 
-        <Input
-          type={Inputs.Email}
-          name="email"
-          label="Email address"
-          placeholder="you@unilorin.edu.ng"
-          required
-          value={email}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-          disabled={loading}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[1.6rem]">
+          <Input
+            type={Inputs.Email}
+            name="email"
+            label="Email address"
+            placeholder="you@unilorin.edu.ng"
+            required
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
+            disabled={loading}
+          />
+
+          <Input
+            type={Inputs.Text}
+            name="number"
+            label="Phone Number"
+            placeholder="08080808080"
+            required
+            value={number}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setNumber(e.target.value)
+            }
+            disabled={loading}
+          />
+        </div>
 
         <Input
           type={Inputs.Password}

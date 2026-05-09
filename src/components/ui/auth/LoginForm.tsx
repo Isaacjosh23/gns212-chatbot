@@ -1,41 +1,73 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Inputs } from "../inputs/_types";
 import { Input } from "../inputs";
 import { Button } from "../button";
 import GoogleIcon from "../icons/google";
+import { useAppDispatch } from "@/store/hooks";
+import { signIn } from "@/lib/supabase/auth";
+import { setLoading, setUser } from "@/store/slices/auth-slice";
 
 export function LoginForm() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
+  const [loading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
+
+    if (!email.trim()) {
+      setFormError("Email is required");
+      return;
+    }
+
+    if (!password) {
+      setFormError("Password is required");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { data, error } = await signIn(email, password);
+
+    if (error) {
+      dispatch(setLoading(false));
+      setIsLoading(false);
+      setFormError(error.message);
+      return;
+    }
+
+    if (data.user && data.session) {
+      dispatch(setUser({ user: data.user, session: data.session }));
+      router.push("/chat");
+    }
   };
 
   return (
     <div className="grid gap-[3.2rem]">
-      {/* Header */}
       <div className="grid gap-[0.4rem]">
-        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)]">
+        <h1 className="text-[2.4rem] font-semibold text-[var(--text-primary)] text-center">
           Welcome back
         </h1>
-        <p className="text-[1.4rem] text-[var(--text-secondary)]">
+        <p className="text-[1.4rem] text-[var(--text-secondary)] text-center">
           Sign in to your GNS 212 account
         </p>
       </div>
 
-      {/* Form */}
       <form id="auth-form" onSubmit={handleSubmit} className="grid gap-[2rem]">
-        {/* Error message */}
-
-        {/* <div className="p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[1.3rem]"></div> */}
+        {formError && (
+          <div className="p-[1.2rem] bg-red-100 border border-red-400 rounded text-red-700 text-[1.3rem]">
+            {formError}
+          </div>
+        )}
 
         <Input
           type={Inputs.Email}
@@ -47,6 +79,7 @@ export function LoginForm() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
           }
+          disabled={loading}
         />
 
         <Input
@@ -59,9 +92,9 @@ export function LoginForm() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
           }
+          disabled={loading}
         />
 
-        {/* Forgot password */}
         <div className="flex justify-end -mt-[0.8rem]">
           <Link
             href="/forgot-password"
@@ -71,26 +104,22 @@ export function LoginForm() {
           </Link>
         </div>
 
-        {/* Sign in button */}
-        <Link href="/chat">
-          <Button
-            type="submit"
-            variant="navy"
-            className="w-full cursor-pointer"
-          >
-            Sign in
-          </Button>
-        </Link>
+        <Button
+          type="submit"
+          variant="navy"
+          className="w-full cursor-pointer"
+          disabled={loading}
+        >
+          {loading ? "Signing in" : "Sign in"}
+        </Button>
       </form>
 
-      {/* Divider */}
       <div className="flex items-center gap-[1.2rem]">
         <div className="flex-1 h-px bg-[var(--text-secondary)] opacity-20"></div>
         <span className="text-[1.3rem] text-[var(--text-secondary)]">or</span>
         <div className="flex-1 h-px bg-[var(--text-secondary)] opacity-20"></div>
       </div>
 
-      {/* Google Sign-In Button */}
       <Button
         type="button"
         variant="outline"
@@ -99,6 +128,7 @@ export function LoginForm() {
           // TODO: Wire up Google OAuth
           console.log("Google sign-in");
         }}
+        disabled={loading}
       >
         <GoogleIcon className="size-[1.6rem]" />
         Sign in with Google

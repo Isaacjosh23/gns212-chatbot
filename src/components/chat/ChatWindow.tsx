@@ -38,21 +38,21 @@ export function ChatWindow({
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-[var(--bg-page)]">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div className="flex-1 overflow-y-auto px-2 sm:px-3 md:px-4 py-3 sm:py-4 md:py-6 space-y-2 sm:space-y-3 md:space-y-4">
         {messages.length === 0 && !isLoading ? (
-          <div className="h-full flex flex-col items-center justify-center gap-6">
-            <div className="text-center">
-              <h1 className="text-5xl font-bold text-[var(--navy)] mb-2">
+          <div className="h-full flex flex-col items-center justify-center gap-4 sm:gap-6">
+            <div className="text-center px-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--navy)] mb-1 sm:mb-2">
                 GNS 212 Assistant
               </h1>
-              <p className="text-[var(--text-secondary)] text-[1.4rem]">
+              <p className="text-[var(--text-secondary)] text-sm sm:text-base md:text-lg lg:text-xl">
                 Ask me anything about the course
               </p>
             </div>
 
             {suggestedQuestions && (
-              <div className="max-w-[50rem] w-full">
-                <p className="text-xl text-[var(--text-secondary)] mb-3 font-medium">
+              <div className="max-w-full sm:max-w-[45rem] md:max-w-[50rem] w-full px-4">
+                <p className="text-sm sm:text-base md:text-lg text-[var(--text-secondary)] mb-2 sm:mb-3 font-medium">
                   Try asking:
                 </p>
                 <SuggestedQuestions
