@@ -5,6 +5,8 @@ import { ChatHeader } from "@/components/chat/ChatHeader";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { ChatSidebar } from "@/components/chat/ChatSidebar";
+import { Button } from "@/components/ui/button";
+import { useLogout } from "@/store/hooks/useLogout";
 import { ChatMessage, Conversation } from "@/types/chat";
 
 export default function ChatPage() {
@@ -20,7 +22,6 @@ export default function ChatPage() {
     : [];
 
   const handleSendMessage = async (message: string) => {
-    // Add user message to the chat
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       content: message,
@@ -28,42 +29,63 @@ export default function ChatPage() {
       timestamp: new Date(),
     };
 
-    setConversations((prev) =>
-      prev.map((conv) =>
-        conv.id === activeConversationId
-          ? {
-              ...conv,
-              messages: [...conv.messages, userMessage],
-              updatedAt: new Date(),
-            }
-          : conv,
-      ),
-    );
-    setIsLoading(true);
+    // Create new conversation if none exists
+    let targetConvId = activeConversationId;
 
-    try {
-      // TODO: Call your API endpoint here
-      // const response = await fetch("/api/chat", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ message, conversationHistory: currentMessages }),
-      // });
-      // const data = await response.json();
-
-      // Mock response for now
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        content: "This is a mock response. API integration pending.",
-        role: "assistant",
-        timestamp: new Date(),
+    if (!activeConversationId) {
+      const newConv: Conversation = {
+        id: Date.now().toString(),
+        title: message.substring(0, 30) + (message.length > 30 ? "..." : ""),
+        messages: [userMessage],
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      setConversations((prev) => [newConv, ...prev]);
+      setActiveConversationId(newConv.id);
+      targetConvId = newConv.id;
+    } else {
       setConversations((prev) =>
         prev.map((conv) =>
           conv.id === activeConversationId
+            ? {
+                ...conv,
+                messages: [...conv.messages, userMessage],
+                updatedAt: new Date(),
+              }
+            : conv,
+        ),
+      );
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          conversationHistory: currentMessages,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
+      }
+
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        content: data.content,
+        role: "assistant",
+        timestamp: new Date(),
+        citations: data.citations,
+      };
+
+      setConversations((prev) =>
+        prev.map((conv) =>
+          conv.id === targetConvId
             ? {
                 ...conv,
                 messages: [...conv.messages, assistantMessage],
@@ -80,79 +102,7 @@ export default function ChatPage() {
   };
 
   const handleSuggestionClick = (question: string) => {
-    // Create user message
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      content: question,
-      role: "user",
-      timestamp: new Date(),
-    };
-
-    const targetConvId = activeConversationId || Date.now().toString();
-
-    // If no active conversation, create a new one
-    if (!activeConversationId) {
-      const newConv: Conversation = {
-        id: targetConvId,
-        title: question.substring(0, 30) + (question.length > 30 ? "..." : ""),
-        messages: [userMessage],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      setConversations((prev) => [newConv, ...prev]);
-      setActiveConversationId(targetConvId);
-    } else {
-      // Add message to existing active conversation
-      setConversations((prev) =>
-        prev.map((conv) =>
-          conv.id === activeConversationId
-            ? {
-                ...conv,
-                messages: [...conv.messages, userMessage],
-                title:
-                  conv.messages.length === 0
-                    ? question.substring(0, 30) +
-                      (question.length > 30 ? "..." : "")
-                    : conv.title,
-                updatedAt: new Date(),
-              }
-            : conv,
-        ),
-      );
-    }
-
-    setIsLoading(true);
-
-    // Get assistant response
-    setTimeout(async () => {
-      try {
-        const assistantMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          content: "This is a mock response. API integration pending.",
-          role: "assistant",
-          timestamp: new Date(),
-        };
-
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        setConversations((prev) =>
-          prev.map((conv) =>
-            conv.id === targetConvId
-              ? {
-                  ...conv,
-                  messages: [...conv.messages, assistantMessage],
-                  updatedAt: new Date(),
-                }
-              : conv,
-          ),
-        );
-      } catch (error) {
-        console.error("Error getting response:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 0);
+    handleSendMessage(question);
   };
 
   const handleNewConversation = () => {
@@ -171,15 +121,76 @@ export default function ChatPage() {
     setActiveConversationId(id);
   };
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="flex w-full h-screen bg-(--bg)">
-      {/* Sidebar */}
-      <ChatSidebar
-        conversations={conversations}
-        activeConversationId={activeConversationId}
-        onSelectConversation={handleSelectConversation}
-        onNewConversation={handleNewConversation}
-      />
+      {/* Sidebar - Visible on tablet and desktop */}
+      <div className="hidden md:flex md:flex-col">
+        <ChatSidebar
+          conversations={conversations}
+          activeConversationId={activeConversationId}
+          onSelectConversation={handleSelectConversation}
+          onNewConversation={handleNewConversation}
+        />
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 md:hidden z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu Panel */}
+      <div
+        className={`fixed left-0 top-0 h-screen w-64 bg-[var(--bg-surface)] border-r border-[var(--navy-mid)]/10 flex flex-col overflow-hidden md:hidden transform transition-transform duration-300 z-50 ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Mobile Menu Header */}
+        <div className="p-3 border-b border-[var(--navy-mid)]/10">
+          <Button
+            onClick={() => {
+              handleNewConversation();
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full bg-[var(--navy)] hover:bg-[var(--navy-mid)] text-white text-sm cursor-pointer"
+          >
+            + New Chat
+          </Button>
+        </div>
+
+        {/* Mobile Menu Conversations */}
+        <div className="flex-1 overflow-y-auto px-2 py-3 space-y-2">
+          {conversations.length === 0 ? (
+            <p className="text-sm text-[var(--text-secondary)] px-2 py-4">
+              No conversations yet
+            </p>
+          ) : (
+            conversations.map((conv) => (
+              <button
+                key={conv.id}
+                onClick={() => {
+                  handleSelectConversation(conv.id);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 rounded-lg transition-colors line-clamp-2 text-sm cursor-pointer ${
+                  activeConversationId === conv.id
+                    ? "bg-[var(--gold)] text-[var(--navy)] font-medium"
+                    : "text-[var(--text-primary)] hover:bg-[var(--bg-page)]"
+                }`}
+              >
+                {conv.title}
+              </button>
+            ))
+          )}
+        </div>
+
+        {/* Mobile Menu Logout */}
+        <MobileMenuLogout setIsMobileMenuOpen={setIsMobileMenuOpen} />
+      </div>
 
       {/* Main Chat Area */}
       <div className="flex flex-col flex-1">
@@ -188,6 +199,7 @@ export default function ChatPage() {
           isDarkMode={isDarkMode}
           onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
           onLogout={() => console.log("Logout")}
+          onHamburgerClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
 
         {/* Chat Window */}
@@ -200,6 +212,31 @@ export default function ChatPage() {
         {/* Chat Input */}
         <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>
+    </div>
+  );
+}
+
+interface MobileMenuLogoutProps {
+  setIsMobileMenuOpen: (open: boolean) => void;
+}
+
+function MobileMenuLogout({ setIsMobileMenuOpen }: MobileMenuLogoutProps) {
+  const { logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <div className="p-3 border-t border-[var(--navy-mid)]/10">
+      <Button
+        onClick={handleLogout}
+        variant="outline"
+        className="w-full text-sm cursor-pointer"
+      >
+        Logout
+      </Button>
     </div>
   );
 }
