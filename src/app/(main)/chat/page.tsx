@@ -20,7 +20,6 @@ export default function ChatPage() {
     : [];
 
   const handleSendMessage = async (message: string) => {
-    // Add user message to the chat
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       content: message,
@@ -28,42 +27,63 @@ export default function ChatPage() {
       timestamp: new Date(),
     };
 
-    setConversations((prev) =>
-      prev.map((conv) =>
-        conv.id === activeConversationId
-          ? {
-              ...conv,
-              messages: [...conv.messages, userMessage],
-              updatedAt: new Date(),
-            }
-          : conv,
-      ),
-    );
-    setIsLoading(true);
+    // Create new conversation if none exists
+    let targetConvId = activeConversationId;
 
-    try {
-      // TODO: Call your API endpoint here
-      // const response = await fetch("/api/chat", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ message, conversationHistory: currentMessages }),
-      // });
-      // const data = await response.json();
-
-      // Mock response for now
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        content: "This is a mock response. API integration pending.",
-        role: "assistant",
-        timestamp: new Date(),
+    if (!activeConversationId) {
+      const newConv: Conversation = {
+        id: Date.now().toString(),
+        title: message.substring(0, 30) + (message.length > 30 ? "..." : ""),
+        messages: [userMessage],
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
+      setConversations((prev) => [newConv, ...prev]);
+      setActiveConversationId(newConv.id);
+      targetConvId = newConv.id;
+    } else {
       setConversations((prev) =>
         prev.map((conv) =>
           conv.id === activeConversationId
+            ? {
+                ...conv,
+                messages: [...conv.messages, userMessage],
+                updatedAt: new Date(),
+              }
+            : conv,
+        ),
+      );
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          conversationHistory: currentMessages,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
+      }
+
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        content: data.content,
+        role: "assistant",
+        timestamp: new Date(),
+        citations: data.citations,
+      };
+
+      setConversations((prev) =>
+        prev.map((conv) =>
+          conv.id === targetConvId
             ? {
                 ...conv,
                 messages: [...conv.messages, assistantMessage],
@@ -80,79 +100,7 @@ export default function ChatPage() {
   };
 
   const handleSuggestionClick = (question: string) => {
-    // Create user message
-    const userMessage: ChatMessage = {
-      id: Date.now().toString(),
-      content: question,
-      role: "user",
-      timestamp: new Date(),
-    };
-
-    const targetConvId = activeConversationId || Date.now().toString();
-
-    // If no active conversation, create a new one
-    if (!activeConversationId) {
-      const newConv: Conversation = {
-        id: targetConvId,
-        title: question.substring(0, 30) + (question.length > 30 ? "..." : ""),
-        messages: [userMessage],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      setConversations((prev) => [newConv, ...prev]);
-      setActiveConversationId(targetConvId);
-    } else {
-      // Add message to existing active conversation
-      setConversations((prev) =>
-        prev.map((conv) =>
-          conv.id === activeConversationId
-            ? {
-                ...conv,
-                messages: [...conv.messages, userMessage],
-                title:
-                  conv.messages.length === 0
-                    ? question.substring(0, 30) +
-                      (question.length > 30 ? "..." : "")
-                    : conv.title,
-                updatedAt: new Date(),
-              }
-            : conv,
-        ),
-      );
-    }
-
-    setIsLoading(true);
-
-    // Get assistant response
-    setTimeout(async () => {
-      try {
-        const assistantMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          content: "This is a mock response. API integration pending.",
-          role: "assistant",
-          timestamp: new Date(),
-        };
-
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        setConversations((prev) =>
-          prev.map((conv) =>
-            conv.id === targetConvId
-              ? {
-                  ...conv,
-                  messages: [...conv.messages, assistantMessage],
-                  updatedAt: new Date(),
-                }
-              : conv,
-          ),
-        );
-      } catch (error) {
-        console.error("Error getting response:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 0);
+    handleSendMessage(question);
   };
 
   const handleNewConversation = () => {
