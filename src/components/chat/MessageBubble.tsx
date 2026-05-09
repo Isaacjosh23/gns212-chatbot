@@ -15,7 +15,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
       className={`flex ${isUser ? "justify-end" : "justify-start"} gap-3 animate-fadeIn`}
     >
       {!isUser && (
-        <div className="h-10 w-[3rem] rounded-full bg-[var(--navy)] flex-shrink-0 flex items-center justify-center text-[var(--gold)] text-xl font-bold">
+        <div className="h-10 w-[6rem] rounded-full bg-[var(--navy)] flex-shrink-0 flex items-center justify-center text-[var(--gold)] text-xl font-bold">
           AI
         </div>
       )}
