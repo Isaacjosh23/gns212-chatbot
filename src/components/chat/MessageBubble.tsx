@@ -1,5 +1,6 @@
 "use client";
 
+import ReactMarkdown from "react-markdown";
 import { ChatMessage as ChatMessageType } from "@/types/chat";
 
 interface MessageBubbleProps {
@@ -26,7 +27,15 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             : "bg-[var(--bg-surface)] text-[var(--text-primary)] rounded-bl-none border border-[var(--navy-mid)]/10"
         }`}
       >
-        <p className="text-xl lg:text-2xl leading-relaxed">{message.content}</p>
+        {isUser ? (
+          <p className="text-xl lg:text-2xl leading-relaxed whitespace-pre-wrap">
+            {message.content}
+          </p>
+        ) : (
+          <div className="text-xl lg:text-2xl leading-relaxed prose prose-sm max-w-none prose-p:my-1 prose-li:my-0.5 prose-ol:my-1 prose-ul:my-1">
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          </div>
+        )}
 
         {!isUser && message.citations && message.citations.length > 0 && (
           <div className="mt-1 sm:mt-1.5 pt-1 sm:pt-1.5 border-t border-[var(--navy-mid)]/20 flex flex-wrap gap-0.5 sm:gap-1">
