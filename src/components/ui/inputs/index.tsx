@@ -9,9 +9,6 @@ import { PasswordInput } from "./password-input";
 import type { PasswordInputProps } from "./password-input/_types";
 import { TextInput } from "./text-input";
 import type { TextInputProps } from "./text-input/_types";
-// import { SelectInput } from "./select-input";
-// import type { SelectInputProps } from "./select-input/_types";
-// import { SearchInput, type SearchInputProps } from "./search-input";
 import { TextareaInput } from "./textarea-input";
 import type { TextareaInputProps } from "./textarea-input/_types";
 
@@ -28,12 +25,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps<Inputs>>(
 
       case Inputs.Text:
         return <TextInput {...(props as TextInputProps)} ref={ref} />;
-
-      // case Inputs.Select:
-      //   return <SelectInput {...(props as SelectInputProps)} />;
-
-      // case Inputs.Search:
-      //   return <SearchInput {...(props as SearchInputProps)} />;
 
       case Inputs.Textarea:
         return <TextareaInput {...(props as TextareaInputProps)} />;

@@ -11,4 +11,6 @@ export interface TextareaInputProps {
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onKeyPress?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  autoResize?: boolean;
+  maxHeight?: number;
 }

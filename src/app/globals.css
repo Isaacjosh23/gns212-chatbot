@@ -47,6 +47,16 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
+  --color-navy: var(--navy);
+  --color-navy-mid: var(--navy-mid);
+  --color-navy-light: var(--navy-light);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-page: var(--bg-page);
+  --color-text-muted: var(--text-muted);
+  --color-border-color: var(--border-color);
+
   --default-font-size: 62.5%;
 }
 
