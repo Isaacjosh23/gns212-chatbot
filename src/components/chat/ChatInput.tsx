@@ -36,8 +36,10 @@ export function ChatInput() {
         onKeyPress={handleKeyPress}
         placeholder="Ask about GNS 212"
         disabled={isLoading}
-        rows={2}
-        className="flex-1 bg-white border border-[var(--navy-mid)]/20 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm md:text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent resize-none disabled:opacity-50"
+        rows={1}
+        autoResize
+        maxHeight={200}
+        className="flex-1 bg-white border border-[var(--navy-mid)]/20 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm md:text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent disabled:opacity-50"
       />
 
       <Button

@@ -50,11 +50,11 @@ export function MobileMenu() {
       )}
 
       <div
-        className={`fixed left-0 top-0 h-screen w-64 bg-[var(--bg-surface)] border-r border-[var(--navy-mid)]/10 flex flex-col overflow-hidden md:hidden transform transition-transform duration-300 z-50 ${
+        className={`fixed left-0 top-0 h-[100dvh] w-64 bg-[var(--bg-surface)] border-r border-[var(--navy-mid)]/10 flex flex-col md:hidden transform transition-transform duration-300 z-50 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-3 border-b border-[var(--navy-mid)]/10">
+        <div className="flex-shrink-0 p-3 border-b border-[var(--navy-mid)]/10">
           <Button
             onClick={handleNew}
             className="w-full bg-[var(--navy)] hover:bg-[var(--navy-mid)] text-white text-xl cursor-pointer"
@@ -63,11 +63,9 @@ export function MobileMenu() {
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
+        <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1 min-h-0">
           {conversations.length === 0 ? (
-            <p className="text-xl text-black  px-2 py-3">
-              No conversations yet
-            </p>
+            <p className="text-xl text-navy px-2 py-3">No conversations yet</p>
           ) : (
             conversations.map((conv) => (
               <button
@@ -76,7 +74,7 @@ export function MobileMenu() {
                 className={`w-full text-left px-3 py-2 rounded-lg transition-colors line-clamp-2 text-xl cursor-pointer ${
                   activeConversationId === conv.id
                     ? "bg-[var(--gold)] text-[var(--navy)] font-medium"
-                    : "text-black hover:bg-[var(--bg-page)]"
+                    : "text-navy hover:bg-[var(--bg-page)]"
                 }`}
               >
                 {conv.title}
@@ -85,11 +83,11 @@ export function MobileMenu() {
           )}
         </div>
 
-        <div className="p-3 border-t border-[var(--navy-mid)]/10">
+        <div className="flex-shrink-0 p-3 border-t border-[var(--navy-mid)]/10">
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="w-full cursor-pointer text-xl text-[var(--navy)]"
+            className="w-full cursor-pointer text-xl text-navy"
           >
             Logout
           </Button>

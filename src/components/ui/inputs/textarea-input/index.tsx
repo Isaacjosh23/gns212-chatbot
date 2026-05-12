@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import type { TextareaInputProps } from "./_types";
 import {
   InputConStyles,
@@ -21,7 +22,18 @@ export function TextareaInput({
   showBorder = true,
   className,
   onKeyPress,
+  autoResize = false,
+  maxHeight = 200,
 }: TextareaInputProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (autoResize && textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, maxHeight)}px`;
+    }
+  }, [value, autoResize, maxHeight]);
+
   return (
     <div className="grid gap-[0.8rem] content-start z-10 w-full">
       {label && (
@@ -40,9 +52,11 @@ export function TextareaInput({
         )}
       >
         <textarea
+          ref={textareaRef}
           name={name}
           rows={rows}
-          className="w-full text-[1.4rem] bg-transparent outline-none text-[--text-primary] placeholder:text-[--text-muted] resize-none"
+          className="w-full text-[1.4rem] bg-transparent outline-none text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none overflow-y-auto"
+          style={autoResize ? { maxHeight: `${maxHeight}px` } : undefined}
           value={value}
           placeholder={placeholder}
           readOnly={readonly}
