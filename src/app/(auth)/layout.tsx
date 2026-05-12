@@ -19,7 +19,7 @@ export default function AuthLayout({
         {/* Logo */}
         <div className="flex items-center justify-center gap-[3.2rem]">
           <Image
-            src="/unilorin-logo1.png"
+            src="/unilorin-logo2.png"
             alt="University of Ilorin Logo"
             width={80}
             height={80}
