@@ -12,13 +12,13 @@ export function SuggestedQuestions({
   onSelectQuestion,
 }: SuggestedQuestionsProps) {
   return (
-    <div className="flex flex-wrap gap-1.5 sm:gap-2 md:gap-3">
+    <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
       {questions.map((question, index) => (
         <Button
           key={index}
           variant="outline"
           onClick={() => onSelectQuestion(question)}
-          className="text-xs sm:text-sm md:text-base lg:text-lg border-[var(--navy-mid)] text-[var(--navy-mid)] hover:bg-[var(--gold-light)] hover:border-[var(--gold)] cursor-pointer"
+          className="text-xl border-[var(--navy-mid)] text-[var(--navy-mid)] hover:bg-[var(--gold-light)] hover:border-[var(--gold)] cursor-pointer py-1.5 sm:py-2"
         >
           {question}
         </Button>
