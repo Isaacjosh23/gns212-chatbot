@@ -6,7 +6,7 @@ import { Inputs } from "../inputs/_types";
 import { Input } from "../inputs";
 import { Button } from "../button";
 import GoogleIcon from "../icons/google";
-import { signUp } from "@/lib/supabase/auth";
+import { signInWithGoogle, signUp } from "@/lib/supabase/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser, setLoading } from "@/store/slices/auth-slice";
 
@@ -207,8 +207,9 @@ export function CreateAccountForm() {
         variant="outline"
         disabled={loading}
         className="w-full flex items-center justify-center gap-[0.8rem]"
-        onClick={() => {
-          console.log("Google sign-up — coming soon");
+        onClick={async () => {
+          const { error } = await signInWithGoogle();
+          if (error) setFormError(error.message);
         }}
       >
         <GoogleIcon className="size-[1.6rem]" />
