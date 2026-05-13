@@ -8,7 +8,7 @@ import { Input } from "../inputs";
 import { Button } from "../button";
 import GoogleIcon from "../icons/google";
 import { useAppDispatch } from "@/store/hooks";
-import { signIn } from "@/lib/supabase/auth";
+import { signIn, signInWithGoogle } from "@/lib/supabase/auth";
 import { setLoading, setUser } from "@/store/slices/auth-slice";
 
 export function LoginForm() {
@@ -124,9 +124,9 @@ export function LoginForm() {
         type="button"
         variant="outline"
         className="w-full flex items-center justify-center gap-[0.8rem]"
-        onClick={() => {
-          // TODO: Wire up Google OAuth
-          console.log("Google sign-in");
+        onClick={async () => {
+          const { error } = await signInWithGoogle();
+          if (error) setFormError(error.message);
         }}
         disabled={loading}
       >
