@@ -2,6 +2,7 @@
 
 import ReactMarkdown from "react-markdown";
 import { ChatMessage as ChatMessageType } from "@/types/chat";
+import { useChatContext } from "@/context/ChatContext";
 
 interface MessageBubbleProps {
   message: ChatMessageType;
@@ -9,6 +10,7 @@ interface MessageBubbleProps {
 
 export function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
+  const { isDarkMode } = useChatContext();
 
   return (
     <div
@@ -24,7 +26,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2.5 rounded-lg ${
           isUser
             ? "bg-[var(--navy)] text-white rounded-br-none"
-            : "bg-[var(--bg-surface)] text-[var(--text-primary)] rounded-bl-none border border-[var(--navy-mid)]/10"
+            : "bg-[var(--bg-surface)] rounded-bl-none border border-[var(--navy-mid)]/10"
         }`}
       >
         {isUser ? (
@@ -32,7 +34,11 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             {message.content}
           </p>
         ) : (
-          <div className="text-xl lg:text-2xl leading-relaxed prose prose-sm max-w-none prose-p:my-1 prose-li:my-0.5 prose-ol:my-1 prose-ul:my-1">
+          <div
+            className={`text-xl lg:text-2xl leading-relaxed prose prose-sm max-w-none prose-p:my-1 prose-li:my-0.5 prose-ol:my-1 prose-ul:my-1 ${
+              isDarkMode ? "prose-invert" : "prose-slate"
+            }`}
+          >
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         )}

@@ -8,7 +8,7 @@ import { ChatSidebar } from "@/components/chat/ChatSidebar";
 export default function ChatPage() {
   return (
     <div className="flex w-full h-screen bg-(--bg)">
-      <div className="hidden md:flex md:flex-col">
+      <div className="hidden bg-[var(--bg-surface)] md:flex md:flex-col">
         <ChatSidebar />
       </div>
 

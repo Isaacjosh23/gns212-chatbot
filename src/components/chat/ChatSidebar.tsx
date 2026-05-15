@@ -12,7 +12,7 @@ export function ChatSidebar() {
   } = useChatContext();
 
   return (
-    <div className="w-72 lg:w-80 flex-shrink-0 bg-[var(--bg-surface)] border-r border-[var(--navy-mid)]/10 flex flex-col overflow-hidden">
+    <div className="w-72 lg:w-80 flex-shrink-0 border-r border-[var(--navy-mid)]/10 flex flex-col overflow-hidden">
       <div className="p-3 border-b border-[var(--navy-mid)]/10">
         <Button
           onClick={handleNewConversation}
@@ -24,7 +24,7 @@ export function ChatSidebar() {
 
       <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
         {conversations.length === 0 ? (
-          <p className="text-xl text-[var(--text-secondary)] px-2 py-3">
+          <p className="text-xl text-foreground px-2 py-3">
             No conversations yet
           </p>
         ) : (
@@ -34,8 +34,8 @@ export function ChatSidebar() {
               onClick={() => handleSelectConversation(conv.id)}
               className={`w-full text-left px-3 py-2 rounded-lg transition-colors line-clamp-2 text-xl cursor-pointer ${
                 activeConversationId === conv.id
-                  ? "bg-[var(--gold)] text-[var(--navy)] font-medium"
-                  : "text-[var(--text-primary)] hover:bg-[var(--bg-page)]"
+                  ? "bg-[var(--gold)] text-white font-medium"
+                  : "text-foreground hover:bg-[var(--bg-page)]"
               }`}
             >
               {conv.title}
