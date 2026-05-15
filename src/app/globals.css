@@ -105,6 +105,9 @@
   --bg-page: #eef1f8;
   --text-muted: #8a94a6;
   --border-color: #d6dce8;
+
+  --text-primary: #0d2349;
+  --text-secondary: #4a5568;
 }
 
 .dark {
@@ -150,6 +153,9 @@
   --bg-page: #0a1525;
   --text-muted: #5c6e8a;
   --border-color: #1e2e4a;
+
+  --text-primary: #e8edf7;
+  --text-secondary: #9aaac4;
 }
 
 @layer base {

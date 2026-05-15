@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { ChatMessage, Conversation } from "@/types/chat";
 
 interface ChatContextType {
@@ -26,7 +32,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     string | undefined
   >();
   const [isLoading, setIsLoading] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("darkMode");
+      return saved === "true";
+    }
+    return false;
+  });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const currentMessages = activeConversationId
@@ -158,7 +171,27 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     setActiveConversationId(id);
   };
 
-  const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      localStorage.setItem("darkMode", String(newMode));
+      return newMode;
+    });
+  };
+
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   return (

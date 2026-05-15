@@ -39,13 +39,13 @@ export function ChatInput() {
         rows={1}
         autoResize
         maxHeight={200}
-        className="flex-1 bg-white border border-[var(--navy-mid)]/20 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm md:text-base text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent disabled:opacity-50"
+        className="flex-1 bg-[var(--bg-page)] border border-[var(--navy-mid)]/20 rounded-lg px-2 sm:px-3 py-2 text-xs sm:text-sm md:text-base text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-[var(--gold)] focus:border-transparent disabled:opacity-50"
       />
 
       <Button
         onClick={handleSend}
         disabled={!input.trim() || isLoading}
-        className="bg-[var(--gold)] hover:bg-[var(--gold)]/90 text-[var(--navy)] flex-shrink-0 p-1.5 sm:p-2 h-auto min-h-10 sm:min-h-11"
+        className="bg-[var(--navy)] hover:bg-[var(--navy-mid)] text-white flex-shrink-0 p-1.5 sm:p-2 h-auto min-h-10 sm:min-h-11"
       >
         <SendIcon className="w-6 md:w-8 h-6 sm:h-7 md:h-8" />
       </Button>
