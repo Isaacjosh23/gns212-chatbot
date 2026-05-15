@@ -28,7 +28,7 @@ export function ChatWindow() {
       : [];
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden bg-[var(--bg-page)]">
+    <div className="h-full flex flex-col overflow-hidden bg-[var(--bg-page)]">
       <div className="flex-1 overflow-y-auto px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 space-y-2 sm:space-y-2.5 md:space-y-3">
         {currentMessages.length === 0 && !isLoading ? (
           <div className="h-full flex flex-col items-center justify-center gap-3 sm:gap-4 md:gap-6">

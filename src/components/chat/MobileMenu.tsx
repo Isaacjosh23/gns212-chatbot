@@ -73,8 +73,8 @@ export function MobileMenu() {
                 onClick={() => handleSelect(conv.id)}
                 className={`w-full text-left px-3 py-2 rounded-lg transition-colors line-clamp-2 text-xl cursor-pointer ${
                   activeConversationId === conv.id
-                    ? "bg-[var(--gold)] text-[var(--navy)] font-medium"
-                    : "text-navy hover:bg-[var(--bg-page)]"
+                    ? "bg-[var(--gold)] text-white font-medium"
+                    : "text-foreground hover:bg-[var(--bg-page)]"
                 }`}
               >
                 {conv.title}
@@ -87,7 +87,7 @@ export function MobileMenu() {
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="w-full cursor-pointer text-xl text-navy"
+            className="w-full cursor-pointer text-xl text-foreground"
           >
             Logout
           </Button>

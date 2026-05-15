@@ -35,7 +35,7 @@ export function ChatHeader() {
         <Button
           onClick={logout}
           variant="ghost"
-          className="hidden md:block text-white hover:bg-[var(--navy-mid)] cursor-pointer"
+          className="hidden md:block text-white hover:bg-[var(--navy-mid)] hover:text-white cursor-pointer"
         >
           Logout
         </Button>
